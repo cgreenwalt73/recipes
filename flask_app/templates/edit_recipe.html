@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+    <title>{{recipe_to_edit.name}}</title>
+</head>
+<body class="bg-dark text-white">
+    <header class="d-flex justify-content-around align-items-center">
+        <p class="display-1">Edit Recipe</p>
+        <a href="/dashboard" class="text-info">Dashboard</a>
+        <a href="/logout" class="text-info">Logout</a>
+    </header>
+    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="text-warning text-center">{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <form action="/edit_recipe/{{recipe_to_edit.id}}" method="post" class="d-flex justify-content-center">
+        <div class="d-flex flex-xl-column align-items-end">
+            <input type="hidden" name="id" value={{recipe_to_edit.id}}>
+            <label>
+                Name:
+                <input type="text" name="name" value="{{recipe_to_edit.name}}">
+            </label>
+            <label>
+                Description:
+                <textarea name="description" cols="23" rows="5">{{recipe_to_edit.description}}</textarea>
+            </label>
+            <label>
+                Instructions:
+                <textarea name="instructions" cols="23" rows="5">{{recipe_to_edit.instructions}}</textarea>
+            </label>
+            <label>
+                Date Made On:
+                <input type="date" name="date_made" value="{{recipe_to_edit.date_made.strftime('%Y-%m-%d')}}">
+            </label>
+            {% if recipe_to_edit.under30min == 'Yes' %}
+                <label>
+                    Under 30 minutes?
+                    <label>
+                        Yes
+                        <input type="radio" name="under30min" value="Yes" checked><br>
+                    </label>
+                    <label>
+                        No
+                        <input type="radio" name="under30min" value="No"><br>
+                    </label>
+                </label>
+            {% else %}
+                <label>
+                    Under 30 minutes?
+                    <label>
+                        Yes
+                        <input type="radio" name="under30min" value="Yes"><br>
+                    </label>
+                    <label>
+                        No
+                        <input type="radio" name="under30min" value="No" checked><br>
+                    </label>
+                </label>
+            {% endif %}
+            <button class="btn bg-secondary text-info">Update</button>
+        </div>
+    </form>
+</body>
+</html>
